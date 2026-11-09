@@ -99,15 +99,15 @@ function solve(values) {
     }
     return t;
   }
-  let best=improve(greedy(0),16), bestLen=length(best);
-  const alt=improve(greedy(sorted[n>>1]),12);
+  let best=improve(greedy(0),9), bestLen=length(best);
+  const alt=improve(greedy(sorted[n>>1]),6);
   if (length(alt)<bestLen) { best=alt; bestLen=length(alt); }
   let state=0x67b38d;
   function random(limit) {
     state=(Math.imul(1664525,state)+1013904223)>>>0;
     return Math.floor(state/4294967296*limit);
   }
-  for (let round=0; round<30; round++) {
+  for (let round=0; round<5; round++) {
     const t=best.slice();
     // Rotate the seam and kick short stretches throughout the tour.
     t.push(...t.splice(0,random(n)));
@@ -115,7 +115,7 @@ function solve(values) {
       const a=random(n-24), b=a+2+random(5), c=b+2+random(5), d=c+2+random(5);
       t.splice(a,d-a,...t.slice(c,d),...t.slice(b,c),...t.slice(a,b));
     }
-    improve(t,6);
+    improve(t,4);
     const score=length(t);
     if (score<bestLen) { best=t; bestLen=score; }
   }
